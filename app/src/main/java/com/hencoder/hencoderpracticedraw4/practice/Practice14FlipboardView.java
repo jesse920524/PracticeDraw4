@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -72,16 +73,24 @@ public class Practice14FlipboardView extends View {
         int x = centerX - bitmapWidth / 2;
         int y = centerY - bitmapHeight / 2;
 
+        //绘制上半部分: 上半部分是不能动的
         canvas.save();
+        canvas.clipRect(x, y, x + bitmapWidth, y+bitmapHeight/2);
+        canvas.drawBitmap(bitmap, x, y, paint);
+        canvas.restore();
 
+        //绘制下半部分: 下半部分先移动到中心点, 配置旋转效果 再范围裁切
+        canvas.save();
         camera.save();
         camera.rotateX(degree);
         canvas.translate(centerX, centerY);
         camera.applyToCanvas(canvas);
         canvas.translate(-centerX, -centerY);
         camera.restore();
-
+        canvas.clipRect(x, y+bitmapHeight/2, x + bitmapWidth, y+bitmapHeight);
         canvas.drawBitmap(bitmap, x, y, paint);
         canvas.restore();
+
+
     }
 }

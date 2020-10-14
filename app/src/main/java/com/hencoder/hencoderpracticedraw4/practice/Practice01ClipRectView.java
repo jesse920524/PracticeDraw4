@@ -7,11 +7,15 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 import com.hencoder.hencoderpracticedraw4.R;
 
 public class Practice01ClipRectView extends View {
+    private static final String TAG = "Practice01ClipRectView";
+
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Bitmap bitmap;
 
@@ -35,6 +39,8 @@ public class Practice01ClipRectView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        int ts = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+        Log.d(TAG, "onDraw: " + ts);
         int left = (getWidth() - bitmap.getWidth()) / 2;
         int top = (getHeight() - bitmap.getHeight()) / 2;
 
